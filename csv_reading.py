@@ -23,7 +23,7 @@ def elastic_insert_logic(file_name: str):
     print(df)
 
     # Добавляем все в новый индекс INDEX
-    e = Elasticsearch("http://127.0.0.1:9200")
+    e = Elasticsearch("`http://127.0.0.1:9200`")
     if e.indices.exists(INDEX):
         e.indices.delete(index=INDEX)
     e.indices.create(index=INDEX)
@@ -37,7 +37,7 @@ def elastic_insert_logic(file_name: str):
 
 def postgres_insert_logic(file_name: str):
     # Добавление данных в Postgres
-    conn = psycopg2.connect("postgresql://postgres:postgres@127.0.0.1:5432/postgres")
+    conn = psycopg2.connect(dbname="postgres", user="postgres", password="1112", host="127.0.0.1", port="5432")
     cur = conn.cursor()
 
     cur.execute("DROP TABLE IF EXISTS posts;")
@@ -60,7 +60,7 @@ def postgres_insert_logic(file_name: str):
     print("Успешно записал данные в postgres")
 
 
-def main():
+def main() -> object:
     file_name = "./posts.csv"
     postgres_insert_logic(file_name)
     elastic_insert_logic(file_name)
